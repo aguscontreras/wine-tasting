@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { CataRealtime } from '../services/realtime';
-import { Cata, User } from '../services';
+import { CataRealtime, Cata, User } from '../services';
 
 @Component({
   selector: 'app-root',

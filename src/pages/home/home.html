@@ -1,0 +1,41 @@
+<div class="container w-screen h-screen pt-20 text-center">
+  <div class="header">
+    <h1 class="{{ hlmH1 }} text-5xl">Se destapa la noche</h1>
+    <p class="{{ hlmLead }} mt-4">Armá una cata entre amigos y elegí el vino campeón.</p>
+  </div>
+
+  <hlm-card class="w-full max-w-sm mt-8">
+    <hlm-card-header>
+      <h1 hlmCardTitle>Ingresá el código de la cata que recibiste</h1>
+    </hlm-card-header>
+
+    <div hlmCardContent>
+      <form id="login-form" #form="ngForm" (ngSubmit)="onSubmit(form)">
+        <div class="flex flex-col gap-6">
+          <div class="grid gap-2">
+            <input
+              type="text"
+              id="code"
+              name="code"
+              [(ngModel)]="code"
+              placeholder="A1B2-A12BC3"
+              required
+              hlmInput
+              pattern="[A-Za-z0-9]{4}-[A-Za-z0-9]{6}"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <hlm-card-footer class="flex-col gap-2">
+      <button [disabled]="form.invalid" hlmBtn type="submit" class="w-full" form="login-form">
+        Buscar cata
+      </button>
+    </hlm-card-footer>
+  </hlm-card>
+</div>
+
+<div class="horacio-container w-screen fixed horacio-slide-top -bottom-9">
+  <img src="horacio-red.png" alt="Horacio Guarani" />
+</div>
