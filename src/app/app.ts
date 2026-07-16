@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { GlobalLoading } from '../components/global-loading/global-loading';
 import { CataRealtime, Cata, User } from '../services';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, GlobalLoading],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
