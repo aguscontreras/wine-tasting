@@ -1,16 +1,16 @@
 import { inject, Service, signal } from '@angular/core';
 import { Db } from '../db/db';
-import { Cata as CataModel } from '../models';
+import { Cata } from '../models';
 
 @Service()
-export class Cata {
+export class Catas {
   private client = inject(Db).supabaseClient;
-  readonly activeCata = signal<CataModel | null>(null);
+  readonly activeCata = signal<Cata | null>(null);
 
-  selectActiveCata(id: CataModel['id']): Promise<void>;
-  selectActiveCata(code: CataModel['code']): Promise<void>;
-  async selectActiveCata(identifier: CataModel['code'] | CataModel['id']): Promise<void> {
-    let cata: CataModel | null = null;
+  selectActiveCata(id: Cata['id']): Promise<Cata>;
+  selectActiveCata(code: Cata['code']): Promise<Cata>;
+  async selectActiveCata(identifier: Cata['code'] | Cata['id']): Promise<Cata> {
+    let cata: Cata | null = null;
 
     if (typeof identifier === 'string') {
       cata = await this.getCataByCode(identifier);
@@ -23,9 +23,10 @@ export class Cata {
     }
 
     this.activeCata.set(cata);
+    return cata;
   }
 
-  async getCataById(id: CataModel['id']): Promise<CataModel> {
+  async getCataById(id: Cata['id']): Promise<Cata> {
     const { data, error } = await this.client.from('catas').select('*').eq('id', id).single();
 
     if (error) {
@@ -35,7 +36,7 @@ export class Cata {
     return data;
   }
 
-  async getCataByCode(code: CataModel['code']): Promise<CataModel> {
+  async getCataByCode(code: Cata['code']): Promise<Cata> {
     const { data, error } = await this.client.from('catas').select('*').eq('code', code).single();
 
     if (error) {
@@ -45,7 +46,7 @@ export class Cata {
     return data;
   }
 
-  async toggleVotingEnabled(cataId: CataModel['id'], enabled: boolean): Promise<boolean> {
+  async toggleVotingEnabled(cataId: Cata['id'], enabled: boolean): Promise<boolean> {
     const { data, error } = await this.client
       .from('catas')
       .update({ voting_enabled: enabled })

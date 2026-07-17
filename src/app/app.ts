@@ -1,10 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { CataRealtime, Cata, User, Loading } from '../services';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { CataRealtime, Catas, Assistants, Loading } from '../services';
 import { environment } from '../environments/environment';
 import { HlmToasterImports } from '@spartan-ng/helm/sonner';
 import { toast } from '@spartan-ng/brain/sonner';
 import { GlobalLoading } from '../components/global-loading/global-loading';
+import { delay } from 'rxjs';
+import { PARAMS } from '../config/params';
 
 @Component({
   selector: 'app-root',
@@ -14,21 +16,21 @@ import { GlobalLoading } from '../components/global-loading/global-loading';
 })
 export class App {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly cataRealtime = inject(CataRealtime);
-  private readonly cataService = inject(Cata);
-  private readonly assistantService = inject(User);
-  protected readonly title = signal('wine-tasting');
+  private readonly cataService = inject(Catas);
+  private readonly assistantService = inject(Assistants);
   private readonly loading = inject(Loading);
 
   ngOnInit() {
-    this.route.queryParamMap.subscribe((params) => {
+    this.route.queryParamMap.pipe(delay(PARAMS.delayToCheckURL)).subscribe((params) => {
       const room = params.get('room');
       if (room) {
         this.proccessRoom(room);
       }
     });
 
-    this.cataRealtime.votingEnabled$.subscribe((res) => console.log(res));
+    this.cataRealtime.cataVotingEnabled$.subscribe((res) => console.log(res));
   }
 
   private async proccessRoom(code: string) {
@@ -37,19 +39,24 @@ export class App {
 
       this.loading.show('Validando cata...');
 
-      const cata = await this.cataService.getCataByCode(cataCode);
-    
-      this.cataRealtime.listenVotingEnabledChanges(cata.id);
+      const cata = await this.cataService.selectActiveCata(cataCode);
 
-      const assistant = await this.assistantService.getUserByCode(assistantCode, cata.id);
+      this.cataRealtime.listenCataVotingEnabledChanges(cata.id);
+      this.cataRealtime.listenWineVotingEnabledChanges(cata.id);
+
+      const assistant = await this.assistantService.selectActiveAssistant(assistantCode, cata.id);
 
       if (!environment.production) {
         console.log({ assistant, cata });
       }
 
-      toast.success('Bienvenido/a a la cata!', {
+      toast.info('Bienvenido/a a la cata!', {
         description: 'Hora de empezar a votar',
       });
+
+      setTimeout(() => {
+        this.router.navigate(['/room']);
+      }, PARAMS.delayToGoRoomAfterCheck);
     } catch (error) {
       toast.error('Codigo de cata o asistente invalido');
       console.error('[APP] Invalid cata or assistant code');
@@ -59,6 +66,10 @@ export class App {
   }
 
   private validateRoom(code: string) {
+    if (!environment.production) {
+      console.log({ code });
+    }
+
     const [cataCode, assistantCode] = code.split('-');
 
     if (!cataCode) {

@@ -1,0 +1,142 @@
+<div class="container py-9 h-screen">
+  <div class="header">
+    <h2 class="{{ hlmH2 }} text-5xl">{{ activeCata()?.name }}</h2>
+    <p class="{{ hlmLead }} mt-4">Esta noche probamos y votamos:</p>
+  </div>
+
+  <div class="mt-5">
+    @if (loadingWineList()) {
+      <div class="skeletons">
+        @for (item of skeletonCount; track $index) {
+          <hlm-item variant="muted" class="mb-4">
+            <hlm-item-content>
+              <p hlmItemDescription class="mb-2">
+                <hlm-skeleton class="h-3 w-3/4" />
+              </p>
+              <p hlmItemDescription>
+                <hlm-skeleton class="h-3 w-3/4" />
+              </p>
+            </hlm-item-content>
+
+            <hlm-item-footer>
+              <hlm-skeleton class="h-3 w-1/4 mt-1" />
+            </hlm-item-footer>
+          </hlm-item>
+        }
+      </div>
+    } @else {
+      @for (wine of activeWines(); track wine.id) {
+        <div class="relative mb-4">
+          <hlm-item
+            variant="muted"
+            class="mb-0"
+            [attr.aria-disabled]="!wine.voting_enabled || null"
+          >
+            <hlm-item-media variant="icon">
+              <ng-icon name="lucideWine" />
+            </hlm-item-media>
+
+            <hlm-item-content>
+              <hlm-item-title>
+                <span class="{{ hlmMuted }}">{{ wine.number }}.</span>
+                <span>{{ wine.name }}</span>
+              </hlm-item-title>
+              <p hlmItemDescription>{{ wine.assistant_name }}</p>
+            </hlm-item-content>
+
+            @if (wine.voting_enabled) {
+              <hlm-item-actions>
+                <button
+                  hlmBtn
+                  variant="default"
+                  size="sm"
+                  (click)="openVotation(wine, wineVoteDrawer)"
+                >
+                  @if (wine.points_given) {
+                    Votaste: <b>{{ wine.points_given }}</b>
+                  } @else {
+                    Votar
+                  }
+                </button>
+              </hlm-item-actions>
+            }
+
+            <hlm-item-footer>
+              <div class="flex gap-1">
+                @if (wine.variety_name) {
+                  <span hlmBadge variant="secondary">{{ wine.variety_name | titlecase }}</span>
+                }
+
+                @if (wine.type) {
+                  <span hlmBadge variant="secondary">{{ wine.type | titlecase }}</span>
+                }
+              </div>
+            </hlm-item-footer>
+          </hlm-item>
+
+          @if (!wine.voting_enabled) {
+            <div
+              class="absolute inset-0 z-10 rounded-2xl bg-background/10 supports-backdrop-filter:backdrop-blur-xs"
+              aria-hidden="true"
+            ></div>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
+
+<hlm-drawer #wineVoteDrawer>
+  @let wine = activeWine();
+  @let assistant = activeAssistant();
+  @let cata = activeCata();
+
+  @if (wine && assistant && cata) {
+    <hlm-drawer-content *hlmDrawerPortal="let ctx">
+      <hlm-drawer-header>
+        <h3 hlmDrawerTitle>
+          ¿Qué te pareció <b>{{ wine?.name }}?</b>
+        </h3>
+        <p hlmDrawerDescription>Tené en cuenta aroma, sabor, cuerpo y final</p>
+      </hlm-drawer-header>
+
+      <div class="grid grid-cols-5 gap-3 my-5 px-4">
+        @for (value of pointsList; track $index) {
+          <button
+            hlmBtn
+            [variant]="wine.points_given === value ? 'default' : 'secondary'"
+            size="lg"
+            (click)="setVote(value, wine, assistant, cata, wineVoteDrawer)"
+          >
+            {{ value }}
+          </button>
+        }
+      </div>
+
+      <hlm-drawer-footer>
+        @if (voting()) {
+          <button hlmBtn variant="outline" disabled>
+            <hlm-spinner data-icon="inline-start" />
+            Registrando voto...
+          </button>
+        } @else {
+          <button hlmDrawerClose hlmBtn variant="outline">Omitir</button>
+        }
+      </hlm-drawer-footer>
+    </hlm-drawer-content>
+  }
+</hlm-drawer>
+
+<hlm-alert-dialog #isYourTurnDialog>
+  <hlm-alert-dialog-content *hlmAlertDialogPortal="let ctx" size="sm">
+    <hlm-alert-dialog-header>
+      <hlm-alert-dialog-media>
+        <ng-icon name="lucidePartyPopper" />
+      </hlm-alert-dialog-media>
+      <h2 hlmAlertDialogTitle>{{ isYourTurnTitle() }}</h2>
+      <p hlmAlertDialogDescription>Presentá tu vino y preparate para recibir las puntuaciones.</p>
+    </hlm-alert-dialog-header>
+
+    <button hlmBtn [variant]="'default'" (click)="isYourTurnDialog.close()">Yendo</button>
+  </hlm-alert-dialog-content>
+</hlm-alert-dialog>

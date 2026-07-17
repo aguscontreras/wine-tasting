@@ -1,7 +1,15 @@
 export interface Vote {
+  assistant_id: number;
+  created_at: string;
   id: number;
-  created_at: Date;
-  assistant_id: string;
-  wine_id: number;
   points: number;
+  wine_id: number;
+}
+
+export interface VoteInsert {
+  assistant_id: number;
+  created_at?: string;
+  id?: number;
+  points?: number;
+  wine_id: number;
 }
