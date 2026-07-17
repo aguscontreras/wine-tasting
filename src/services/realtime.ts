@@ -1,10 +1,6 @@
 import { inject, Service } from '@angular/core';
 import { Db } from '../db/db';
-import {
-  postgresChangesFilter,
-  REALTIME_SUBSCRIBE_STATES,
-  RealtimeChannel,
-} from '@supabase/supabase-js';
+import { postgresChangesFilter, REALTIME_SUBSCRIBE_STATES } from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
 import { Assistant, Cata, Wine } from '../models';
 
@@ -12,8 +8,6 @@ import { Assistant, Cata, Wine } from '../models';
 export class CataRealtime {
   private db = inject(Db);
   private client = this.db.supabaseClient;
-  private cataEnableChangesChannel?: RealtimeChannel;
-  private wineEnableChangesChannel?: RealtimeChannel;
 
   readonly cataVotingEnabled$ = new BehaviorSubject<boolean>(false);
 
@@ -30,7 +24,7 @@ export class CataRealtime {
   );
 
   listenCataVotingEnabledChanges(cataId: Cata['id']) {
-    this.cataEnableChangesChannel = this.client
+    this.client
       .channel(`cata:${cataId}`)
       .on(
         'postgres_changes',
@@ -51,7 +45,7 @@ export class CataRealtime {
   }
 
   listenWineVotingEnabledChanges(cataId: Cata['id']) {
-    this.wineEnableChangesChannel = this.client
+    this.client
       .channel(`wine:${cataId}`)
       .on(
         'postgres_changes',
