@@ -1,32 +1,6 @@
-.horacio-slide-top {
-  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-}
-
-@-webkit-keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100%);
-    transform: translateY(100%);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-@keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100%);
-    transform: translateY(100%);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
 .horacio-slide-right {
-  -webkit-animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
-  animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1s both;
+  -webkit-animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) .7 both;
+  animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) .7s both;
 }
 
 @-webkit-keyframes slide-right {
@@ -47,5 +21,31 @@
   100% {
     -webkit-transform: translateX(100%);
     transform: translateX(100%);
+  }
+}
+
+.mountains-slide-left {
+  -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) .5s both;
+  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) .5s both;
+}
+
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+    transform: translate(0%);
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+    transform: translate(0%);
   }
 }

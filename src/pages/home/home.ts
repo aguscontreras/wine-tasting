@@ -1,15 +1,16 @@
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule, NgForm } from '@angular/forms';
 import { hlmH1, hlmLead } from '@spartan-ng/helm/typography';
 import { toast } from '@spartan-ng/brain/sonner';
+import { HlmAlertDialog, HlmAlertDialogImports } from '@spartan-ng/helm/alert-dialog';
 import { HlmFieldImports } from '../../../libs/ui/field/src';
 import { HlmButtonGroupImports } from '../../../libs/ui/button-group/src';
 import { HlmButtonImports } from '../../../libs/ui/button/src';
 import { HlmInputImports } from '../../../libs/ui/input/src';
 import { HlmCardImports } from '../../../libs/ui/card/src';
 import { HlmLabelImports } from '../../../libs/ui/label/src';
-import { FormsModule, NgForm } from '@angular/forms';
 import { Loading, Rooms } from '../../services';
-import { Router } from '@angular/router';
 import { PARAMS } from '../../config/params';
 
 @Component({
@@ -22,6 +23,7 @@ import { PARAMS } from '../../config/params';
     HlmFieldImports,
     HlmButtonGroupImports,
     HlmButtonImports,
+    HlmAlertDialogImports,
   ],
   templateUrl: './home.html',
   styleUrl: './home.scss',
@@ -34,14 +36,16 @@ export class Home {
   readonly hlmLead = hlmLead;
   code = '';
 
-  async onSubmit(form: NgForm) {
+  async onSubmit(form: NgForm, dialog: HlmAlertDialog) {
     if (form.invalid) {
       throw new Error('Invalid form');
     }
 
+    dialog.close();
+
     try {
       this.loading.show('Validando cata...');
-      this.rooms.proccessRoom(form.value['code']);
+      await this.rooms.proccessRoom(form.value['code']);
 
       toast.info('Bienvenido/a a la cata!', {
         description: 'Hora de empezar a votar',
@@ -49,11 +53,11 @@ export class Home {
 
       setTimeout(() => {
         this.router.navigate(['/room']);
+        this.loading.hide();
       }, PARAMS.delayToGoRoomAfterCheck);
     } catch {
-      toast.error('Codigo de cata o asistente invalido');
-    } finally {
       this.loading.hide();
+      toast.error('Codigo de cata o asistente invalido');
     }
   }
 }

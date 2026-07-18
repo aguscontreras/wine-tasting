@@ -4,38 +4,48 @@
     <p class="{{ hlmLead }} mt-4">Disfrutá de una cata entre amigos y armá tu ranking de vinos.</p>
   </div>
 
-  <hlm-card class="w-full max-w-sm mt-5">
-    <hlm-card-header>
-      <h1 hlmCardTitle>Ingresá el código de la cata recibiste</h1>
-    </hlm-card-header>
-
-    <div hlmCardContent>
-      <form id="login-form" #form="ngForm" (ngSubmit)="onSubmit(form)">
-        <div class="flex flex-col gap-6">
-          <div class="grid gap-2">
-            <input
-              type="text"
-              id="code"
-              name="code"
-              [(ngModel)]="code"
-              placeholder="A1B2-A12BC3"
-              required
-              hlmInput
-              pattern="[A-Za-z0-9]{4}-[A-Za-z0-9]{6}"
-            />
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <hlm-card-footer class="flex-col gap-2">
-      <button [disabled]="form.invalid" hlmBtn type="submit" class="w-full" form="login-form">
-        Buscar cata
-      </button>
-    </hlm-card-footer>
-  </hlm-card>
+  <button (click)="dialog.open()" hlmBtn type="button" class="w-full my-5">Buscar cata</button>
 </div>
 
-<div class="horacio-container w-3/4 fixed horacio-slide-right -bottom-5 right-3/4">
+<hlm-alert-dialog #dialog>
+  <hlm-alert-dialog-content *hlmAlertDialogPortal="let ctx" size="sm">
+    <hlm-alert-dialog-header>
+      <p hlmAlertDialogDescription>Ingresá el código que recibiste</p>
+    </hlm-alert-dialog-header>
+
+    <form id="login-form" #form="ngForm" (ngSubmit)="onSubmit(form, dialog)">
+      <div class="flex flex-col gap-6">
+        <div class="grid gap-2">
+          <input
+            type="text"
+            id="code"
+            name="code"
+            [(ngModel)]="code"
+            placeholder="A1B2-A12BC3"
+            required
+            hlmInput
+            pattern="[A-Za-z0-9]{4}-[A-Za-z0-9]{6}"
+          />
+        </div>
+      </div>
+    </form>
+
+    <div class="buttons">
+      <button [disabled]="form.invalid" hlmBtn type="submit" class="w-full mb-3" form="login-form">
+        Buscar cata
+      </button>
+
+      <button hlmBtn type="button" class="w-full" variant="ghost" (click)="dialog.close()">
+        Cancelar
+      </button>
+    </div>
+  </hlm-alert-dialog-content>
+</hlm-alert-dialog>
+
+<div class="w-full fixed mountains-slide-left bottom-0 right-0">
+  <img class="w-full" src="mountains-red.png" alt="Horacio Guarani" />
+</div>
+
+<div class="w-5/6 fixed horacio-slide-right -bottom-5 right-5/6">
   <img class="w-full" src="horacio-red.png" alt="Horacio Guarani" />
 </div>
