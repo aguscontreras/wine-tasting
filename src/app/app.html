@@ -1,3 +1,19 @@
+@if (!isHomePage()) {
+  <nav hlmNavigationMenu class="p-5">
+    <ul hlmNavigationMenuList class="flex-wrap">
+      <li hlmNavigationMenuItem>
+        <a hlmNavigationMenuLink routerLink="/room">Cata</a>
+      </li>
+
+      @if (activeCata()?.ranking_enabled) {
+        <li hlmNavigationMenuItem>
+          <a hlmNavigationMenuLink routerLink="/ranking">Ranking</a>
+        </li>
+      }
+    </ul>
+  </nav>
+}
+
 <router-outlet />
-<hlm-toaster [richColors]="true"/>
+<hlm-toaster [richColors]="true" />
 <app-global-loading />

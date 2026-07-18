@@ -1,0 +1,50 @@
+@let first = ranking().slice(0, 1).at(0);
+
+<div class="container">
+  <div class="header flex gap-2 items-center">
+    <ng-icon name="lucideTrophy"></ng-icon>
+    <h2 class="{{ hlmH4 }} text-5xl">Y el ganador es...</h2>
+  </div>
+
+  <hlm-card class="mt-5 mb-8 text-center shadow-md shadow-amber-200">
+    <hlm-card-header>
+      <div class="my-2">
+        <div class="w-[150px] mx-auto">
+          <img class="rounded-full" src="horacio-red.png" alt="Horacio Guarani" />
+        </div>
+      </div>
+      <h3 class="{{ hlmH3 }}" hlmCardTitle>
+        <b>{{ first?.name }}</b>
+      </h3>
+      <p hlmCardDescription>{{ first?.assistant_name }}</p>
+    </hlm-card-header>
+  </hlm-card>
+
+  <p class="{{ hlmMuted }}">Las copas hablaron. Mirá cómo quedó el ranking:</p>
+
+  <div hlmTableContainer>
+    <table hlmTable>
+      <thead hlmTableHeader>
+        <tr hlmTableRow>
+          <th hlmTableHead>Pos.</th>
+          <th hlmTableHead>Vino</th>
+          <th hlmTableHead>Puntos</th>
+        </tr>
+      </thead>
+      <tbody hlmTableBody>
+        @for (wine of ranking(); track wine.id; let i = $index) {
+          <tr hlmTableRow>
+            <td hlmTableCell>{{ i + 1 }}</td>
+            <td hlmTableCell>
+              <p class="{{ hlmP }}">{{ wine.name }}</p>
+              <p class="{{ hlmMuted }}">{{ wine.assistant_name }}</p>
+            </td>
+            <td hlmTableCell class="text-center">
+              <b>{{ wine.promedio }}</b>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

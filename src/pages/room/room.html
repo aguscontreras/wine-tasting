@@ -1,4 +1,4 @@
-<div class="container py-9 h-screen">
+<div class="container py-4">
   <div class="header">
     <h2 class="{{ hlmH2 }} text-5xl">{{ activeCata()?.name }}</h2>
     <p class="{{ hlmLead }} mt-4">Esta noche probamos y votamos:</p>
@@ -33,45 +33,46 @@
             [attr.aria-disabled]="!wine.voting_enabled || null"
           >
             <hlm-item-media variant="icon">
-              <ng-icon name="lucideWine" />
+              <ng-icon [name]="wine.points_given ? 'lucideWine' : 'lucideEyeOff'" />
             </hlm-item-media>
 
             <hlm-item-content>
               <hlm-item-title>
+                @let text = wine.points_given ? wine.name : 'Vino no descubierto...';
+
                 <span class="{{ hlmMuted }}">{{ wine.number }}.</span>
-                <span>{{ wine.name }}</span>
+                <span>{{ text }}</span>
               </hlm-item-title>
               <p hlmItemDescription>{{ wine.assistant_name }}</p>
             </hlm-item-content>
 
             @if (wine.voting_enabled) {
+              @let content = wine.points_given ? `Votaste: <b>${ wine.points_given }</b>` : 'Votar';
+
               <hlm-item-actions>
                 <button
                   hlmBtn
                   variant="default"
                   size="sm"
+                  [innerHTML]="content"
                   (click)="openVotation(wine, wineVoteDrawer)"
-                >
-                  @if (wine.points_given) {
-                    Votaste: <b>{{ wine.points_given }}</b>
-                  } @else {
-                    Votar
-                  }
-                </button>
+                ></button>
               </hlm-item-actions>
             }
 
-            <hlm-item-footer>
-              <div class="flex gap-1">
-                @if (wine.variety_name) {
-                  <span hlmBadge variant="secondary">{{ wine.variety_name | titlecase }}</span>
-                }
+            @if (wine.points_given) {
+              <hlm-item-footer>
+                <div class="flex gap-1">
+                  @if (wine.variety_name) {
+                    <span hlmBadge variant="secondary">{{ wine.variety_name | titlecase }}</span>
+                  }
 
-                @if (wine.type) {
-                  <span hlmBadge variant="secondary">{{ wine.type | titlecase }}</span>
-                }
-              </div>
-            </hlm-item-footer>
+                  @if (wine.type) {
+                    <span hlmBadge variant="secondary">{{ wine.type | titlecase }}</span>
+                  }
+                </div>
+              </hlm-item-footer>
+            }
           </hlm-item>
 
           @if (!wine.voting_enabled) {
@@ -94,9 +95,12 @@
   @if (wine && assistant && cata) {
     <hlm-drawer-content *hlmDrawerPortal="let ctx">
       <hlm-drawer-header>
-        <h3 hlmDrawerTitle>
-          ¿Qué te pareció <b>{{ wine?.name }}?</b>
-        </h3>
+        @let text =
+          wine.points_given
+            ? `¿Qué puntaje le das a <b>${wine?.name}</b>?`
+            : '¿Qué puntaje le das a este vino?';
+
+        <h3 hlmDrawerTitle [innerHTML]="text"></h3>
         <p hlmDrawerDescription>Tené en cuenta aroma, sabor, cuerpo y final</p>
       </hlm-drawer-header>
 

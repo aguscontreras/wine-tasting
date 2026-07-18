@@ -1,6 +1,6 @@
 import { inject, Service, signal } from '@angular/core';
 import { Db } from '../db/db';
-import { Assistant, Cata, Wine, WineWithMetadata } from '../models';
+import { Assistant, Cata, Wine, WineRanking, WineWithMetadata } from '../models';
 import { waitForPromise } from '../utils';
 import { PARAMS } from '../config/params';
 
@@ -34,7 +34,7 @@ export class Wines {
       .eq('cata_id', cataId)
       .eq('votos.assistant_id', assistantId)
       .order('voting_enabled', { ascending: false })
-      .order('number', { ascending: true });
+      // .order('number', { ascending: true });
 
     if (error) throw error;
 
@@ -78,5 +78,16 @@ export class Wines {
     if (updateError) throw updateError;
 
     return updated;
+  }
+
+  async getRanking(cataId: Cata['id']): Promise<WineRanking[]> {
+    const { data, error } = await this.client
+      .from('ranking_vinos')
+      .select('*')
+      .eq('cata_id', cataId)
+      .order('promedio', { ascending: false });
+
+    if (error) throw error;
+    return data;
   }
 }

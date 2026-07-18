@@ -11,7 +11,7 @@ import { HlmDrawer, HlmDrawerImports } from '@spartan-ng/helm/drawer';
 import { HlmSkeletonImports } from '@spartan-ng/helm/skeleton';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucidePartyPopper, lucideWine } from '@ng-icons/lucide';
+import { lucideEyeOff, lucideHatGlasses, lucidePartyPopper, lucideWine } from '@ng-icons/lucide';
 import { HlmAlertDialog, HlmAlertDialogImports } from '@spartan-ng/helm/alert-dialog';
 import { Assistants, CataRealtime, Catas, Votations, Wines } from '../../services';
 import { Assistant, Cata, Wine, WineWithMetadata } from '../../models';
@@ -29,7 +29,7 @@ import { Assistant, Cata, Wine, WineWithMetadata } from '../../models';
     HlmAlertDialogImports,
     NgIcon,
   ],
-  providers: [provideIcons({ lucideWine, lucidePartyPopper })],
+  providers: [provideIcons({ lucideWine, lucidePartyPopper, lucideHatGlasses, lucideEyeOff })],
   templateUrl: './room.html',
   styleUrl: './room.scss',
 })
@@ -73,7 +73,6 @@ export class Room {
 
       if (activeCata && activeAssistant) {
         this.getWines(activeCata.id, activeAssistant.id);
-        this.wines.randomizeNextActiveWine(activeCata.id);
       }
     });
 
@@ -134,7 +133,7 @@ export class Room {
       await this.wines.getWinesWithAssistants(cata.id, assistant.id);
       drawer.close();
       this.voting.set(false);
-      toast.success('Voto registrado');
+      toast.success(`Votaste ${ wine.name.toUpperCase() }!`);
     } catch (error) {
       toast.error('No pudimos registrar tu voto');
       console.error(error);

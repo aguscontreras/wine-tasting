@@ -3,13 +3,13 @@ import { Db } from '../db/db';
 import { postgresChangesFilter, REALTIME_SUBSCRIBE_STATES } from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
 import { Assistant, Cata, Wine } from '../models';
+import { Catas } from './cata';
 
 @Service()
 export class CataRealtime {
   private db = inject(Db);
   private client = this.db.supabaseClient;
-
-  readonly cataVotingEnabled$ = new BehaviorSubject<boolean>(false);
+  private catas = inject(Catas);
 
   readonly wineVotingEnabled$ = new BehaviorSubject<{
     wineId: Wine['id'];
@@ -23,6 +23,7 @@ export class CataRealtime {
     REALTIME_SUBSCRIBE_STATES.CLOSED,
   );
 
+
   listenCataVotingEnabledChanges(cataId: Cata['id']) {
     this.client
       .channel(`cata:${cataId}`)
@@ -35,7 +36,8 @@ export class CataRealtime {
           filter: postgresChangesFilter().eq('id', cataId),
         },
         (payload) => {
-          this.cataVotingEnabled$.next(payload.new['voting_enabled']);
+          console.log(payload);
+          this.catas.setActiveCata(payload.new as Cata);
         },
       )
       .subscribe((status, err) => {

@@ -3,4 +3,5 @@ export interface Cata {
   created_at: string;
   name: string;
   code: string;
+  ranking_enabled: boolean;
 }

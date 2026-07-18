@@ -55,6 +55,7 @@ export type Database = {
           created_at: string
           id: number
           name: string
+          ranking_enabled: boolean
           voting_enabled: boolean | null
         }
         Insert: {
@@ -62,6 +63,7 @@ export type Database = {
           created_at?: string
           id?: number
           name: string
+          ranking_enabled?: boolean
           voting_enabled?: boolean | null
         }
         Update: {
@@ -69,6 +71,7 @@ export type Database = {
           created_at?: string
           id?: number
           name?: string
+          ranking_enabled?: boolean
           voting_enabled?: boolean | null
         }
         Relationships: []
@@ -183,6 +186,13 @@ export type Database = {
             foreignKeyName: "votos_wine_id_fkey"
             columns: ["wine_id"]
             isOneToOne: false
+            referencedRelation: "ranking_vinos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "votos_wine_id_fkey"
+            columns: ["wine_id"]
+            isOneToOne: false
             referencedRelation: "vinos"
             referencedColumns: ["id"]
           },
@@ -190,19 +200,30 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      ranking_vinos: {
+        Row: {
+          assistant_name: string | null
+          cantidad_votos: number | null
+          cata_id: number | null
+          id: number | null
+          name: string | null
+          number: number | null
+          promedio: number | null
+          variety_name: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vinos_cata_id_fkey"
+            columns: ["cata_id"]
+            isOneToOne: false
+            referencedRelation: "catas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       generate_catas_code: { Args: { len?: number }; Returns: string }
-      registrar_voto: {
-        Args: {
-          p_asistente_code: string
-          p_cata_code: string
-          p_points: number
-          p_wine_id: number
-        }
-        Returns: undefined
-      }
     }
     Enums: {
       [_ in never]: never

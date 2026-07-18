@@ -26,6 +26,10 @@ export class Catas {
     return cata;
   }
 
+  setActiveCata(cata: Cata) {
+    this.activeCata.set(cata);
+  }
+
   async getCataById(id: Cata['id']): Promise<Cata> {
     const { data, error } = await this.client.from('catas').select('*').eq('id', id).single();
 
