@@ -79,7 +79,7 @@ export class Room {
 
     this.cataRealtime.wineVotingEnabled$
       .pipe(filter(Boolean), distinctUntilChanged(), takeUntilDestroyed())
-      .subscribe(({ wineName, votingEnabled, assistantId }) => {
+      .subscribe(({ wineName, votingEnabled, assistantId, showInfo }) => {
         const activeCata = this.activeCata();
         const activeAssistant = this.activeAssistant();
 
@@ -87,7 +87,7 @@ export class Room {
           this.getWines(activeCata.id, activeAssistant.id, votingEnabled ? wineName : undefined);
         }
 
-        if (assistantId === this.activeAssistant()?.id) {
+        if (assistantId === this.activeAssistant()?.id && showInfo) {
           this.setRandomTitle();
           this.assistantIsTheNext.set(true);
           this.showYourTurnDialog();

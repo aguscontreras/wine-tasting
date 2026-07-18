@@ -15,6 +15,7 @@ export class CataRealtime {
     wineId: Wine['id'];
     wineName: Wine['name'];
     votingEnabled: Wine['voting_enabled'];
+    showInfo: Wine['show_info'];
     assistantId: Assistant['id'];
     cataId: Cata['id'];
   } | null>(null);
@@ -66,8 +67,16 @@ export class CataRealtime {
               voting_enabled: votingEnabled,
               assistant_id: assistantId,
               cata_id: cataId,
+              show_info: showInfo,
             } = payload.new;
-            this.wineVotingEnabled$.next({ wineId, wineName, votingEnabled, assistantId, cataId });
+            this.wineVotingEnabled$.next({
+              wineId,
+              wineName,
+              votingEnabled,
+              assistantId,
+              showInfo,
+              cataId,
+            });
             this.wineViewInfoEnabled.set(wineId);
           }
         },
