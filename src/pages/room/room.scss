@@ -1,0 +1,12 @@
+@keyframes red-glow-fade {
+  0% {
+    box-shadow: 0 0 6px 1px var(--primary);
+  }
+  100% {
+    box-shadow: 0 0 6px 1px rgba(235, 154, 154, 0);
+  }
+}
+
+.highlight {
+  animation: red-glow-fade 3s ease-out forwards;
+}

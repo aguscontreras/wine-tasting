@@ -44,4 +44,12 @@ export class Admin {
       this.catas.setActiveCata(cata);
     }
   }
+
+  enableViewInfoActiveWine() {
+    const cata = this.activeCata();
+
+    if (!cata) throw new Error('Cata inexistente');
+
+    this.wines.enableViewInfoActiveWine(cata.id);
+  }
 }

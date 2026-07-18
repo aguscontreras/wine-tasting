@@ -50,6 +50,7 @@ export class Room {
   readonly activeCata = this.catas.activeCata;
   readonly activeWines = this.wines.activeWines;
   readonly activeWine = this.wines.activeWine;
+  readonly wineShowingInfo = this.cataRealtime.wineViewInfoEnabled;
   readonly skeletonCount = [1, 2, 3];
   readonly pointsList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   readonly loadingWineList = signal(false);
@@ -84,12 +85,12 @@ export class Room {
 
         if (activeCata && activeAssistant) {
           this.getWines(activeCata.id, activeAssistant.id, votingEnabled ? wineName : undefined);
+        }
 
-          if (assistantId === activeAssistant.id && votingEnabled) {
-            this.setRandomTitle();
-            this.assistantIsTheNext.set(true);
-            this.showYourTurnDialog();
-          }
+        if (assistantId === this.activeAssistant()?.id) {
+          this.setRandomTitle();
+          this.assistantIsTheNext.set(true);
+          this.showYourTurnDialog();
         }
       });
   }
@@ -131,9 +132,12 @@ export class Room {
     try {
       await this.votations.setVote(value, wine.id, assistant.id);
       await this.wines.getWinesWithAssistants(cata.id, assistant.id);
+
       drawer.close();
+
       this.voting.set(false);
-      toast.success(`Votaste ${ wine.name.toUpperCase() }!`);
+
+      toast.success(`Voto registrado!`);
     } catch (error) {
       toast.error('No pudimos registrar tu voto');
       console.error(error);

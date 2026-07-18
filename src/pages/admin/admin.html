@@ -6,7 +6,7 @@
         <hlm-item variant="outline">
           <hlm-item-content>
             <hlm-item-title>Randomizar vino</hlm-item-title>
-            <p hlmItemDescription>Setear al azar un vino como el siguiente en la lista.</p>
+            <p hlmItemDescription>Setear al azar un vino como el siguiente.</p>
           </hlm-item-content>
           <hlm-item-actions>
             <button hlmBtn variant="outline" size="sm" (click)="randomizeWine()">Randomizar</button>
@@ -14,7 +14,19 @@
         </hlm-item>
       </li>
 
-      <li>
+      <li class="my-4">
+        <hlm-item variant="outline">
+          <hlm-item-content>
+            <hlm-item-title>Mostrar vino actual</hlm-item-title>
+            <p hlmItemDescription>Mostrar datos del vino en votacion.</p>
+          </hlm-item-content>
+          <hlm-item-actions>
+            <button hlmBtn variant="outline" size="sm" (click)="enableViewInfoActiveWine()">Mostrar</button>
+          </hlm-item-actions>
+        </hlm-item>
+      </li>
+
+      <li class="my-4">
         <hlm-item variant="outline">
           <hlm-item-content>
             <hlm-item-title>Activar o desactivar ranking</hlm-item-title>

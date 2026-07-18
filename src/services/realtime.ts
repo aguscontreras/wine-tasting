@@ -1,4 +1,4 @@
-import { inject, Service } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { Db } from '../db/db';
 import { postgresChangesFilter, REALTIME_SUBSCRIBE_STATES } from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
@@ -19,12 +19,14 @@ export class CataRealtime {
     cataId: Cata['id'];
   } | null>(null);
 
+  wineViewInfoEnabled = signal<Wine['id'] | null>(null);
+
   readonly cataChannelStatus$ = new BehaviorSubject<REALTIME_SUBSCRIBE_STATES>(
     REALTIME_SUBSCRIBE_STATES.CLOSED,
   );
 
 
-  listenCataVotingEnabledChanges(cataId: Cata['id']) {
+  listenCataChanges(cataId: Cata['id']) {
     this.client
       .channel(`cata:${cataId}`)
       .on(
@@ -46,7 +48,7 @@ export class CataRealtime {
       });
   }
 
-  listenWineVotingEnabledChanges(cataId: Cata['id']) {
+  listenWineChanges(cataId: Cata['id']) {
     this.client
       .channel(`wine:${cataId}`)
       .on(
@@ -68,6 +70,7 @@ export class CataRealtime {
               cata_id: cataId,
             } = payload.new;
             this.wineVotingEnabled$.next({ wineId, wineName, votingEnabled, assistantId, cataId });
+            this.wineViewInfoEnabled.set(wineId);
           }
         },
       )

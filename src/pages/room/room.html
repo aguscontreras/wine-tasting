@@ -27,40 +27,40 @@
     } @else {
       @for (wine of activeWines(); track wine.id) {
         <div class="relative mb-4">
-          <hlm-item
-            variant="muted"
-            class="mb-0"
-            [attr.aria-disabled]="!wine.voting_enabled || null"
-          >
-            <hlm-item-media variant="icon">
-              <ng-icon [name]="wine.points_given ? 'lucideWine' : 'lucideEyeOff'" />
-            </hlm-item-media>
+          @if (wine.show_info) {
+            <hlm-item
+              variant="muted"
+              class="mb-0"
+              [class.highlight]="wineShowingInfo() === wine.id"
+              [attr.aria-disabled]="!wine.voting_enabled || null"
+            >
+              <hlm-item-media variant="icon">
+                <ng-icon [name]="'lucideWine'" />
+              </hlm-item-media>
 
-            <hlm-item-content>
-              <hlm-item-title>
-                @let text = wine.points_given ? wine.name : 'Vino no descubierto...';
+              <hlm-item-content>
+                <hlm-item-title>
+                  <span class="{{ hlmMuted }}">{{ wine.number }}.</span>
+                  <span>{{ wine.name }}</span>
+                </hlm-item-title>
 
-                <span class="{{ hlmMuted }}">{{ wine.number }}.</span>
-                <span>{{ text }}</span>
-              </hlm-item-title>
-              <p hlmItemDescription>{{ wine.assistant_name }}</p>
-            </hlm-item-content>
+                <p hlmItemDescription>{{ wine.assistant_name }}</p>
+              </hlm-item-content>
 
-            @if (wine.voting_enabled) {
-              @let content = wine.points_given ? `Votaste: <b>${ wine.points_given }</b>` : 'Votar';
+              @if (wine.voting_enabled) {
+                @let content = wine.points_given ? `Votaste: <b>${wine.points_given}</b>` : 'Votar';
 
-              <hlm-item-actions>
-                <button
-                  hlmBtn
-                  variant="default"
-                  size="sm"
-                  [innerHTML]="content"
-                  (click)="openVotation(wine, wineVoteDrawer)"
-                ></button>
-              </hlm-item-actions>
-            }
+                <hlm-item-actions>
+                  <button
+                    hlmBtn
+                    variant="default"
+                    size="sm"
+                    [innerHTML]="content"
+                    (click)="openVotation(wine, wineVoteDrawer)"
+                  ></button>
+                </hlm-item-actions>
+              }
 
-            @if (wine.points_given) {
               <hlm-item-footer>
                 <div class="flex gap-1">
                   @if (wine.variety_name) {
@@ -72,8 +72,39 @@
                   }
                 </div>
               </hlm-item-footer>
-            }
-          </hlm-item>
+            </hlm-item>
+          } @else {
+            <hlm-item
+              variant="muted"
+              class="mb-0"
+              [attr.aria-disabled]="!wine.voting_enabled || null"
+            >
+              <hlm-item-media variant="icon">
+                <ng-icon [name]="'lucideEyeOff'" />
+              </hlm-item-media>
+
+              <hlm-item-content>
+                <hlm-item-title>
+                  <span class="{{ hlmMuted }}">{{ wine.number }}.</span>
+                  <span>Vino no descubierto...</span>
+                </hlm-item-title>
+              </hlm-item-content>
+
+              @if (wine.voting_enabled) {
+                @let content = wine.points_given ? `Votaste: <b>${wine.points_given}</b>` : 'Votar';
+
+                <hlm-item-actions>
+                  <button
+                    hlmBtn
+                    variant="default"
+                    size="sm"
+                    [innerHTML]="content"
+                    (click)="openVotation(wine, wineVoteDrawer)"
+                  ></button>
+                </hlm-item-actions>
+              }
+            </hlm-item>
+          }
 
           @if (!wine.voting_enabled) {
             <div
@@ -138,7 +169,10 @@
         <ng-icon name="lucidePartyPopper" />
       </hlm-alert-dialog-media>
       <h2 hlmAlertDialogTitle>{{ isYourTurnTitle() }}</h2>
-      <p hlmAlertDialogDescription>Presentá tu vino y preparate para recibir las puntuaciones.</p>
+      <p hlmAlertDialogDescription>
+        ¡Descubrimos que era tu vino! 🍷 Ahora es tu turno de presentarlo. Contanos por qué
+        lo elegiste y preparate para escuchar las opiniones del grupo.
+      </p>
     </hlm-alert-dialog-header>
 
     <button hlmBtn [variant]="'default'" (click)="isYourTurnDialog.close()">Yendo</button>

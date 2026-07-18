@@ -16,8 +16,8 @@ export class Rooms {
 
       const cata = await this.cataService.selectActiveCata(cataCode);
 
-      this.cataRealtime.listenCataVotingEnabledChanges(cata.id);
-      this.cataRealtime.listenWineVotingEnabledChanges(cata.id);
+      this.cataRealtime.listenCataChanges(cata.id);
+      this.cataRealtime.listenWineChanges(cata.id);
 
       const assistant = await this.assistantService.selectActiveAssistant(assistantCode, cata.id);
 

@@ -33,8 +33,8 @@ export class Wines {
       )
       .eq('cata_id', cataId)
       .eq('votos.assistant_id', assistantId)
-      .order('voting_enabled', { ascending: false })
-      // .order('number', { ascending: true });
+      .order('voting_enabled', { ascending: false });
+    // .order('number', { ascending: true });
 
     if (error) throw error;
 
@@ -78,6 +78,29 @@ export class Wines {
     if (updateError) throw updateError;
 
     return updated;
+  }
+
+  async enableViewInfoActiveWine(cataId: Cata['id']) {
+    const { data: voting, error: selectError } = await this.client
+      .from('vinos')
+      .select('*')
+      .eq('cata_id', cataId)
+      .eq('voting_enabled', true)
+      .eq('show_info', false)
+      .single();
+
+    if (selectError) throw selectError;
+
+    if (!voting) return false;
+
+    const { error: updateError } = await this.client
+      .from('vinos')
+      .update({ show_info: true })
+      .eq('id', voting.id);
+
+    if (updateError) throw updateError;
+
+    return true;
   }
 
   async getRanking(cataId: Cata['id']): Promise<WineRanking[]> {

@@ -102,6 +102,7 @@ export type Database = {
           id: number
           name: string
           number: number
+          show_info: boolean
           type: string | null
           variety_id: number | null
           voting_enabled: boolean
@@ -113,6 +114,7 @@ export type Database = {
           id?: number
           name?: string
           number: number
+          show_info?: boolean
           type?: string | null
           variety_id?: number | null
           voting_enabled?: boolean
@@ -124,6 +126,7 @@ export type Database = {
           id?: number
           name?: string
           number?: number
+          show_info?: boolean
           type?: string | null
           variety_id?: number | null
           voting_enabled?: boolean

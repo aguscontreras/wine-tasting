@@ -12,6 +12,7 @@ export interface Wine {
   type: string | null;
   variety_id: number | null;
   voting_enabled: boolean;
+  show_info: boolean;
 }
 
 export interface WineWithMetadata extends Wine {
