@@ -10,6 +10,12 @@
           <a hlmNavigationMenuLink routerLink="/ranking">Ranking</a>
         </li>
       }
+
+      @if (activeAssistant()?.is_host) {
+        <li hlmNavigationMenuItem>
+          <a hlmNavigationMenuLink routerLink="/admin">Admin</a>
+        </li>
+      }
     </ul>
   </nav>
 }

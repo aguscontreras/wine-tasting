@@ -1,0 +1,34 @@
+<div class="container">
+  <h3 class="{{ hlmH3 }}">Panel admin</h3>
+  <div class="commands">
+    <ul>
+      <li class="my-4">
+        <hlm-item variant="outline">
+          <hlm-item-content>
+            <hlm-item-title>Randomizar vino</hlm-item-title>
+            <p hlmItemDescription>Setear al azar un vino como el siguiente en la lista.</p>
+          </hlm-item-content>
+          <hlm-item-actions>
+            <button hlmBtn variant="outline" size="sm" (click)="randomizeWine()">Randomizar</button>
+          </hlm-item-actions>
+        </hlm-item>
+      </li>
+
+      <li>
+        <hlm-item variant="outline">
+          <hlm-item-content>
+            <hlm-item-title>Activar o desactivar ranking</hlm-item-title>
+            <p hlmItemDescription>Para la cata actual.</p>
+          </hlm-item-content>
+          <hlm-item-actions>
+            <hlm-switch
+              class="mr-2"
+              [checked]="activeCata()?.ranking_enabled"
+              (click)="toggleEnableRanking()"
+            />
+          </hlm-item-actions>
+        </hlm-item>
+      </li>
+    </ul>
+  </div>
+</div>

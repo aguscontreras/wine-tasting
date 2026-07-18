@@ -9,7 +9,10 @@ export class Assistants {
 
   selectActiveAssistant(id: Assistant['id']): Promise<Assistant>;
   selectActiveAssistant(code: Assistant['code'], cataId?: Assistant['cata_id']): Promise<Assistant>;
-  async selectActiveAssistant(identifier: Assistant['code'] | Assistant['id'], cataId?: Assistant['cata_id']): Promise<Assistant> {
+  async selectActiveAssistant(
+    identifier: Assistant['code'] | Assistant['id'],
+    cataId?: Assistant['cata_id'],
+  ): Promise<Assistant> {
     let assistant: Assistant | null = null;
 
     if (typeof identifier === 'string' && cataId !== undefined) {

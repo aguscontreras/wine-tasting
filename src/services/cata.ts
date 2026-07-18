@@ -64,4 +64,19 @@ export class Catas {
 
     return data?.voting_enabled ?? false;
   }
+
+  async toggleRankingEnabled(cataId: Cata['id'], enabled: boolean) {
+    const { data, error } = await this.client
+      .from('catas')
+      .update({ ranking_enabled: enabled })
+      .eq('id', cataId)
+      .select('ranking_enabled')
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data?.ranking_enabled ?? false;
+  }
 }

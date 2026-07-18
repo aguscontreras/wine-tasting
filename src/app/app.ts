@@ -12,7 +12,7 @@ import { delay, filter, map, startWith } from 'rxjs';
 import { HlmToasterImports } from '@spartan-ng/helm/sonner';
 import { toast } from '@spartan-ng/brain/sonner';
 import { HlmNavigationMenuImports } from '@spartan-ng/helm/navigation-menu';
-import { Catas, Loading, Rooms } from '../services';
+import { Assistants, Catas, Loading, Rooms } from '../services';
 import { GlobalLoading } from '../components/global-loading/global-loading';
 import { PARAMS } from '../config/params';
 
@@ -33,9 +33,11 @@ export class App {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cata = inject(Catas);
+  private readonly assistant = inject(Assistants);
   private readonly rooms = inject(Rooms);
   private readonly loading = inject(Loading);
   readonly activeCata = this.cata.activeCata;
+  readonly activeAssistant = this.assistant.activeAssistant;
 
   private readonly currentUrl = toSignal(
     this.router.events.pipe(

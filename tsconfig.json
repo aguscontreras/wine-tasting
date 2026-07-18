@@ -44,7 +44,8 @@
       "@spartan-ng/helm/utils": ["./libs/ui/utils/src/index.ts"],
       "@spartan-ng/helm/popover": ["./libs/ui/popover/src/index.ts"],
       "@spartan-ng/helm/label": ["./libs/ui/label/src/index.ts"],
-      "@spartan-ng/helm/textarea": ["./libs/ui/textarea/src/index.ts"]
+      "@spartan-ng/helm/textarea": ["./libs/ui/textarea/src/index.ts"],
+      "@spartan-ng/helm/switch": ["./libs/ui/switch/src/index.ts"]
     }
   },
   "angularCompilerOptions": {
