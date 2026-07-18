@@ -4,7 +4,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, filter } from 'rxjs';
 import { toast } from '@spartan-ng/brain/sonner';
 import { HlmItemImports } from '@spartan-ng/helm/item';
-import { hlmH2, hlmLead, hlmMuted } from '@spartan-ng/helm/typography';
+import { hlmH3, hlmLead, hlmMuted } from '@spartan-ng/helm/typography';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmDrawer, HlmDrawerImports } from '@spartan-ng/helm/drawer';
@@ -42,7 +42,7 @@ export class Room {
   private votations = inject(Votations);
   private cataRealtime = inject(CataRealtime);
 
-  readonly hlmH2 = hlmH2;
+  readonly hlmH3 = hlmH3;
   readonly hlmLead = hlmLead;
   readonly hlmMuted = hlmMuted;
   readonly assistantIsTheNext = signal(false);

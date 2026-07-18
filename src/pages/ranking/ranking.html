@@ -6,19 +6,36 @@
     <h2 class="{{ hlmH4 }} text-5xl">Y el ganador es...</h2>
   </div>
 
-  <hlm-card class="mt-5 mb-8 text-center shadow-md shadow-amber-200">
-    <hlm-card-header>
-      <div class="my-2">
-        <div class="w-[150px] mx-auto">
-          <img class="rounded-full" src="horacio-red.png" alt="Horacio Guarani" />
-        </div>
-      </div>
-      <h3 class="{{ hlmH3 }}" hlmCardTitle>
-        <b>{{ first?.name }}</b>
-      </h3>
-      <p hlmCardDescription>{{ first?.assistant_name }}</p>
-    </hlm-card-header>
-  </hlm-card>
+  <div class="relative my-5 w-[280px] rounded-2xl p-[2px] overflow-hidden">
+    <div
+      class="absolute inset-[-50%] animate-spin"
+      style="
+        background: conic-gradient(
+          from 0deg,
+          transparent 0%,
+          transparent 70%,
+          #ffd700 85%,
+          transparent 100%
+        );
+        animation-duration: 3s;
+      "
+    ></div>
+    <div class="relative rounded-xl p-[1px] text-white">
+      <hlm-card class="text-center">
+        <hlm-card-header>
+          <div class="my-2">
+            <div class="w-[150px] mx-auto">
+              <img class="rounded-full" src="horacio-red.png" alt="Horacio Guarani" />
+            </div>
+          </div>
+          <h3 class="{{ hlmH3 }}" hlmCardTitle>
+            <b>{{ first?.name }}</b>
+          </h3>
+          <p hlmCardDescription>{{ first?.assistant_name }}</p>
+        </hlm-card-header>
+      </hlm-card>
+    </div>
+  </div>
 
   <p class="{{ hlmMuted }}">Las copas hablaron. Mirá cómo quedó el ranking:</p>
 
