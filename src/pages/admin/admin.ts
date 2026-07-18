@@ -46,6 +46,7 @@ export class Admin {
 
     try {
       this.catas.toggleRankingEnabled(cata.id, !cata.ranking_enabled);
+      toast.success('Randomizado correctamente');
     } catch (error) {
       toast.error('No se pudo activar o desactivar el ranking');
       this.catas.setActiveCata(cata);
@@ -57,6 +58,11 @@ export class Admin {
 
     if (!cata) throw new Error('Cata inexistente');
 
-    this.wines.enableViewInfoActiveWine(cata.id);
+    try {
+      this.wines.enableViewInfoActiveWine(cata.id);
+      toast.success('Vino mostrado correctamente');
+    } catch (error) {
+      toast.error('No se pudo mostrar la info del vino');
+    }
   }
 }
