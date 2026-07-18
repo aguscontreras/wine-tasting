@@ -3,25 +3,28 @@
   <div class="commands">
     <ul>
       <li class="my-4">
-        <hlm-item variant="outline">
+        <hlm-item variant="outline" size="xs">
           <hlm-item-content>
             <hlm-item-title>Randomizar vino</hlm-item-title>
             <p hlmItemDescription>Setear al azar un vino como el siguiente.</p>
           </hlm-item-content>
           <hlm-item-actions>
-            <button hlmBtn variant="outline" size="sm" (click)="randomizeWine()">Randomizar</button>
+            @if (randomizing()) {
+              <hlm-spinner data-icon="inline-start" />
+            }
+            <button hlmBtn variant="outline" size="xs" (click)="randomizeWine()">Randomizar</button>
           </hlm-item-actions>
         </hlm-item>
       </li>
 
       <li class="my-4">
-        <hlm-item variant="outline">
+        <hlm-item variant="outline" size="xs">
           <hlm-item-content>
             <hlm-item-title>Mostrar vino actual</hlm-item-title>
             <p hlmItemDescription>Mostrar datos del vino en votacion.</p>
           </hlm-item-content>
           <hlm-item-actions>
-            <button hlmBtn variant="outline" size="sm" (click)="enableViewInfoActiveWine()">
+            <button hlmBtn variant="outline" size="xs" (click)="enableViewInfoActiveWine()">
               Mostrar
             </button>
           </hlm-item-actions>
@@ -29,7 +32,7 @@
       </li>
 
       <li class="my-4">
-        <hlm-item variant="outline">
+        <hlm-item variant="outline" size="xs">
           <hlm-item-content>
             <hlm-item-title>Activar o desactivar ranking</hlm-item-title>
             <p hlmItemDescription>Para la cata actual.</p>

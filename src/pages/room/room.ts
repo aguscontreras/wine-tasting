@@ -84,7 +84,12 @@ export class Room {
         const activeAssistant = this.activeAssistant();
 
         if (activeCata && activeAssistant) {
-          this.getWines(activeCata.id, activeAssistant.id, votingEnabled ? wineName : undefined);
+          this.getWines(
+            activeCata.id,
+            activeAssistant.id,
+            showInfo ? wineName : undefined,
+            votingEnabled,
+          );
         }
 
         if (assistantId === this.activeAssistant()?.id && showInfo) {
@@ -108,7 +113,12 @@ export class Room {
     }
   }
 
-  async getWines(cataId: Cata['id'], assistantId: Assistant['id'], wineName?: Wine['name']) {
+  async getWines(
+    cataId: Cata['id'],
+    assistantId: Assistant['id'],
+    wineName?: Wine['name'],
+    votingEnabled?: Wine['voting_enabled'],
+  ) {
     this.loadingWineList.set(true);
 
     try {
@@ -117,6 +127,10 @@ export class Room {
 
       if (wineName) {
         toast.success(`Ya podes votar por ${wineName}!`);
+      }
+
+      if (votingEnabled && !wineName) {
+        toast.success(`Se habilitó un nuevo vino para votar`);
       }
     } catch (error) {
       toast.error('No se pudieron obtener los vinos', {
