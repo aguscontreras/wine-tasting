@@ -21,10 +21,8 @@ export class CataRealtime {
 
   wineViewInfoEnabled = signal<Wine['id'] | null>(null);
 
-  readonly cataChannelStatus$ = new BehaviorSubject<REALTIME_SUBSCRIBE_STATES>(
-    REALTIME_SUBSCRIBE_STATES.CLOSED,
-  );
-
+  readonly cataChannelStatus = signal<REALTIME_SUBSCRIBE_STATES>(REALTIME_SUBSCRIBE_STATES.CLOSED);
+  readonly wineChanelStatus = signal<REALTIME_SUBSCRIBE_STATES>(REALTIME_SUBSCRIBE_STATES.CLOSED);
 
   listenCataChanges(cataId: Cata['id']) {
     this.client
@@ -43,8 +41,8 @@ export class CataRealtime {
         },
       )
       .subscribe((status, err) => {
-        console.log('Estado del canal de CATA:', status, err);
-        this.cataChannelStatus$.next(status);
+        console.log('[REALTIME] Estado del canal de CATA:', { status, err });
+        this.cataChannelStatus.set(status);
       });
   }
 
@@ -75,8 +73,8 @@ export class CataRealtime {
         },
       )
       .subscribe((status, err) => {
-        console.log('Estado del canal de VINOS:', status, err);
-        this.cataChannelStatus$.next(status);
+        console.log('[REALTIME] Estado del canal de VINOS:', { status, err });
+        this.wineChanelStatus.set(status);
       });
   }
 

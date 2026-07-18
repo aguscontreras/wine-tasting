@@ -21,7 +21,9 @@
             <p hlmItemDescription>Mostrar datos del vino en votacion.</p>
           </hlm-item-content>
           <hlm-item-actions>
-            <button hlmBtn variant="outline" size="sm" (click)="enableViewInfoActiveWine()">Mostrar</button>
+            <button hlmBtn variant="outline" size="sm" (click)="enableViewInfoActiveWine()">
+              Mostrar
+            </button>
           </hlm-item-actions>
         </hlm-item>
       </li>
@@ -42,5 +44,35 @@
         </hlm-item>
       </li>
     </ul>
+  </div>
+
+  <div class="statuses">
+    <h4 class="{{ hlmH4 }}">Canales</h4>
+
+    <hlm-item variant="outline" class="my-4" size="xs">
+      <hlm-item-media>
+        @if (cataChannelStatus() === 'SUBSCRIBED') {
+          <ng-icon name="lucideCircleCheck" class="text-[length:--spacing(5)] text-green-600" />
+        } @else {
+          <ng-icon name="lucideCircleX" class="text-[length:--spacing(5)] text-red-600" />
+        }
+      </hlm-item-media>
+      <hlm-item-content>
+        <hlm-item-title>Catas: {{ cataChannelStatus() }} </hlm-item-title>
+      </hlm-item-content>
+    </hlm-item>
+
+    <hlm-item variant="outline" class="my-4" size="xs">
+      <hlm-item-media>
+        @if (wineChannelStatus() === 'SUBSCRIBED') {
+          <ng-icon name="lucideCircleCheck" class="text-[length:--spacing(5)] text-green-600" />
+        } @else {
+          <ng-icon name="lucideCircleX" class="text-[length:--spacing(5)] text-red-600" />
+        }
+      </hlm-item-media>
+      <hlm-item-content>
+        <hlm-item-title>Vinos: {{ wineChannelStatus() }} </hlm-item-title>
+      </hlm-item-content>
+    </hlm-item>
   </div>
 </div>
