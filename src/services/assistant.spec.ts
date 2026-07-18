@@ -1,13 +1,13 @@
 // import { TestBed } from '@angular/core/testing';
 
-// import { CataRealtime } from './realtime';
+// import { Assistants } from './assistant';
 
-// describe('CataRealtime', () => {
-//   let service: CataRealtime;
+// describe('Assistants', () => {
+//   let service: Assistants;
 
 //   beforeEach(() => {
 //     TestBed.configureTestingModule({});
-//     service = TestBed.inject(CataRealtime);
+//     service = TestBed.inject(Assistants);
 //   });
 
 //   it('should be created', () => {
